@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#00ffff" />
+    <meta name="description" content="RetroChat Live - Plataforma de vídeo com chat ao vivo retrô, sem login. Nostalgia dos anos 2000 garantida!" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preload Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Meta tags para SEO -->
+    <meta property="og:title" content="RetroChat Live - TV Online Retrô" />
+    <meta property="og:description" content="Plataforma de vídeo com chat ao vivo estilo anos 2000. Entre sem login e reviva a nostalgia!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="%PUBLIC_URL%/retro-preview.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RetroChat Live" />
+    <meta name="twitter:description" content="TV Online Retrô com chat ao vivo - Nostalgia dos anos 2000!" />
+    
+    <title>RetroChat Live - TV Online Retrô</title>
+    
+    <style>
+      /* Loading screen styles */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a0a0a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: 'Courier New', monospace;
+      }
+      
+      .loading-logo {
+        font-size: 4rem;
+        animation: bounce 2s infinite;
+        margin-bottom: 1rem;
+      }
+      
+      .loading-text {
+        color: #00ffff;
+        font-size: 1.2rem;
+        text-shadow: 0 0 10px #00ffff;
+        margin-bottom: 0.5rem;
+      }
+      
+      .loading-subtitle {
+        color: #ffffff;
+        font-size: 0.8rem;
+        opacity: 0.7;
+      }
+      
+      .loading-dots::after {
+        content: '';
+        animation: loading-dots 1.5s infinite;
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+      
+      @keyframes loading-dots {
+        0%, 20% { content: '.'; }
+        40% { content: '..'; }
+        60%, 100% { content: '...'; }
+      }
+      
+      /* Hide loading screen when React loads */
+      .loaded #loading-screen {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>Você precisa habilitar JavaScript para usar o RetroChat Live.</noscript>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-logo">📺</div>
+      <div class="loading-text">RETROCHAT LIVE</div>
+      <div class="loading-subtitle">
+        Carregando a nostalgia<span class="loading-dots"></span>
+      </div>
+    </div>
+    
+    <!-- React App -->
+    <div id="root"></div>
+    
+    <script>
+      // Hide loading screen when page loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.body.classList.add('loaded');
+        }, 1000);
+      });
+      
+      // Console easter egg
+      console.log(`
+%c🎮 RETROCHAT LIVE 🎮
+%cBem-vindo ao código fonte!
+%cFeito com ❤️ e nostalgia dos anos 2000
+%c
+🔧 Stack:
+- React.js + Tailwind CSS
+- Socket.IO para chat em tempo real
+- YouTube IFrame API
+- Zustand para gerenciamento de estado
+
+💡 Dica: Digite /help no chat para ver todos os comandos!
+      `, 
+        'color: #00ffff; font-size: 16px; font-weight: bold;',
+        'color: #ffffff; font-size: 14px;',
+        'color: #00ff00; font-size: 12px;',
+        'color: #ffffff; font-size: 11px;'
+      );
+    </script>
+  </body>
+</html>
