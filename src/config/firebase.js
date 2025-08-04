@@ -3,29 +3,69 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, updateDoc, connectFirestoreEmulator } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+
+// Verificar se as credenciais do Firebase são válidas
+const isFirebaseConfigured = process.env.REACT_APP_FIREBASE_API_KEY && 
+  !process.env.REACT_APP_FIREBASE_API_KEY.includes('Demo') &&
+  !process.env.REACT_APP_FIREBASE_API_KEY.includes('demo');
 
 // Configuração do Firebase (substitua pelos seus dados)
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "your-api-key",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "your-project.firebaseapp.com",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "your-project.appspot.com",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "your-app-id"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || 'demo-key',
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || 'demo.firebaseapp.com',
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || 'demo-project',
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || 'demo.appspot.com',
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || '123456789',
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || '1:123456789:web:demo',
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || 'https://demo.firebaseio.com/'
 };
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+// Verificar se é configuração de demo
+const isDemoConfig = !isFirebaseConfigured;
 
-// Serviços do Firebase
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+let app, auth, db, storage;
+
+if (isDemoConfig) {
+  // Modo demo - sem Firebase real
+  console.log('🔥 Modo Demo: Firebase desabilitado');
+  auth = null;
+  db = null;
+  storage = null;
+} else {
+  // Inicializar Firebase real
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    storage = getStorage(app);
+  } catch (error) {
+    console.warn('Firebase não configurado corretamente, usando modo demo:', error.message);
+    auth = null;
+    db = null;
+    storage = null;
+  }
+}
+
+export { auth, db, storage };
+
+// Conectar ao emulador em desenvolvimento
+if (process.env.NODE_ENV === 'development' && db && !isDemoConfig) {
+  try {
+    connectFirestoreEmulator(db, 'localhost', 8080);
+  } catch (error) {
+    console.log('Firestore emulator already connected');
+  }
+}
 
 // Função para login do admin
-export const loginAdmin = async (email = 'joaodd2@admin.com', password = 'Killer007@') => {
+export const loginAdmin = async (email = 'jL.lucas.oliveira@hotmail.com', password = 'Killer007@') => {
+  if (isDemoConfig || !auth) {
+    console.log('Modo demo: Login simulado com sucesso');
+    return { uid: 'demo-user', email: email };
+  }
+  
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log('Admin logado com sucesso:', userCredential.user.uid);
@@ -38,6 +78,12 @@ export const loginAdmin = async (email = 'joaodd2@admin.com', password = 'Killer
 
 // Função para salvar configurações do sistema
 export const saveSystemConfig = async (config) => {
+  if (isDemoConfig || !db) {
+    console.log('Modo demo: Configurações salvas localmente');
+    localStorage.setItem('retrolive_config', JSON.stringify(config));
+    return;
+  }
+  
   try {
     const configRef = doc(db, 'system', 'config');
     await setDoc(configRef, {
@@ -54,6 +100,12 @@ export const saveSystemConfig = async (config) => {
 
 // Função para carregar configurações do sistema
 export const loadSystemConfig = async () => {
+  if (isDemoConfig || !db) {
+    console.log('Modo demo: Carregando configurações locais');
+    const localConfig = localStorage.getItem('retrolive_config');
+    return localConfig ? JSON.parse(localConfig) : getDefaultConfig();
+  }
+  
   try {
     const configRef = doc(db, 'system', 'config');
     const configSnap = await getDoc(configRef);
@@ -98,6 +150,12 @@ const getDefaultConfig = () => ({
 
 // Função para atualizar canais
 export const updateChannels = async (channels) => {
+  if (isDemoConfig || !db) {
+    console.log('Modo demo: Canais salvos localmente');
+    localStorage.setItem('retrolive_channels', JSON.stringify(channels));
+    return;
+  }
+  
   try {
     const channelsRef = doc(db, 'system', 'channels');
     await setDoc(channelsRef, {
@@ -114,6 +172,12 @@ export const updateChannels = async (channels) => {
 
 // Função para carregar canais
 export const loadChannels = async () => {
+  if (isDemoConfig || !db) {
+    console.log('Modo demo: Carregando canais locais');
+    const localChannels = localStorage.getItem('retrolive_channels');
+    return localChannels ? JSON.parse(localChannels) : null;
+  }
+  
   try {
     const channelsRef = doc(db, 'system', 'channels');
     const channelsSnap = await getDoc(channelsRef);
@@ -131,6 +195,11 @@ export const loadChannels = async () => {
 
 // Função para salvar logs de atividade
 export const saveActivityLog = async (action, details) => {
+  if (isDemoConfig || !db) {
+    console.log('Modo demo: Log salvo localmente:', { action, details });
+    return;
+  }
+  
   try {
     const logRef = doc(db, 'logs', Date.now().toString());
     await setDoc(logRef, {
