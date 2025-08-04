@@ -1,7 +1,7 @@
 # 🎮 RetroLive Chat
 
 > Uma experiência de chat imersiva com visual cyberpunk e funcionalidades avançadas
-
+NÃO ESTÁ COMPLETO... MUITAS COISAS EM ANDAMENTO AINDA! 
 ## ✨ Sobre o Projeto
 
 O RetroLive é uma plataforma de chat em tempo real que combina nostalgia dos anos 80/90 com tecnologia moderna. Desenvolvido para criar uma experiência única de comunicação com visual cyberpunk, efeitos especiais e integração completa com conteúdo multimídia.
