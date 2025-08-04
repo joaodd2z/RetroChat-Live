@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { liveStreams, getAllStreams, getStreamsByCategory } from '../data/liveStreams';
-import { useStore } from '../store/useStore';
+import useStore from '../store/useStore';
 
 const LiveStreamSelector = ({ isOpen, onClose }) => {
   const [activeCategory, setActiveCategory] = useState('sports');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { loginAdmin } from '../config/firebase';
 import chatService from '../services/chatService';
-import { useStore } from '../store/useStore';
+import useStore from '../store/useStore';
 import WordPressAutomation from './WordPressAutomation';
 import streamService from '../services/streamService';
 

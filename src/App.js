@@ -12,6 +12,43 @@ import useSocket from './hooks/useSocket';
 import streamService from './services/streamService';
 import './index.css';
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('App Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-black text-cyan-400 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl mb-4">📺 RetroChat Live</h1>
+            <p className="text-xl mb-4">Carregando a nostalgia...</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-cyan-600 hover:bg-cyan-700 text-black px-4 py-2 rounded"
+            >
+              Recarregar
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
   const { 
     nickname, 
@@ -239,4 +276,13 @@ function App() {
   );
 }
 
-export default App;
+// Componente principal com Error Boundary
+function AppWithErrorBoundary() {
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  );
+}
+
+export default AppWithErrorBoundary;
