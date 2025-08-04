@@ -1,12 +1,17 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+/node_modules
+/server/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
 
 # Production builds
-build/
-dist/
+/build
+/dist
 
 # Environment variables
 .env
@@ -15,7 +20,12 @@ dist/
 .env.test.local
 .env.production.local
 
-# IDE files
+# Firebase
+.firebase/
+.firebaserc
+firebase.json
+
+# IDE and Editor files
 .vscode/
 .idea/
 *.swp
@@ -32,26 +42,37 @@ ehthumbs.db
 Thumbs.db
 
 # Logs
-logs/
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # Runtime data
-pids/
+pids
 *.pid
 *.seed
 *.pid.lock
 
 # Coverage directory used by tools like istanbul
-coverage/
-
-# nyc test coverage
-.nyc_output/
+nyc_output
 
 # Dependency directories
+node_modules/
 jspm_packages/
 
 # Optional npm cache directory
 .npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
 
 # Optional REPL history
 .node_repl_history
@@ -66,29 +87,20 @@ jspm_packages/
 .cache
 .parcel-cache
 
-# next.js build output
+# Next.js build output
 .next
 
-# nuxt.js build output
+# Nuxt.js build / generate output
 .nuxt
+dist
 
-# vuepress build output
-.vuepress/dist
+# Gatsby files
+.cache/
+public
 
-# Serverless directories
-.serverless
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
+# Storybook build outputs
+.out
+.storybook-out
 
 # Temporary folders
 tmp/
@@ -104,59 +116,9 @@ temp/
 *.sln
 *.sw?
 
-# Local Netlify folder
-.netlify
-
-# Firebase
-.firebase/
-firebase-debug.log
-
-# Vercel
-.vercel
-
 # Local development
 .local
 
-# Backup files
-*.backup
-*.bak
-*.tmp
-
-# Package lock files (escolha um)
-# package-lock.json
+# Package manager lock files (keep only one)
 # yarn.lock
-
-# Server specific
-server/node_modules/
-server/.env
-server/logs/
-server/uploads/
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Redis dump
-dump.rdb
-
-# PM2
-.pm2/
-
-# Docker
-.dockerignore
-Dockerfile
-docker-compose.yml
-
-# Kubernetes
-*.yaml
-*.yml
-
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-
-# Misc
-*.tsbuildinfo
-.eslintcache
+# pnpm-lock.yaml
