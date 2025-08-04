@@ -1,160 +1,185 @@
-# 🎮 RetroLive Chat
+# RetroChat-Live 🎮📺
 
-> Uma experiência de chat imersiva com visual cyberpunk e funcionalidades avançadas
+Um sistema de chat ao vivo com streams integrados, automação WordPress e histórico Firebase.
 
-## ✨ Sobre o Projeto
-
-O RetroLive é uma plataforma de chat em tempo real que combina nostalgia dos anos 80/90 com tecnologia moderna. Desenvolvido para criar uma experiência única de comunicação com visual cyberpunk, efeitos especiais e integração completa com conteúdo multimídia.
-
-## 🚀 Funcionalidades Principais
-
-### 💬 Sistema de Chat Avançado
-- **Chat em tempo real** com Socket.IO
-- **Mensagens persistentes** com histórico completo
-- **Sistema de notificações** visuais e sonoras
-- **Emojis e reações** personalizadas
-- **Comandos especiais** para moderação
-
-### 📺 Player Multimídia Integrado
-- **Player de YouTube** com sincronização em grupo
-- **Controles compartilhados** entre usuários
-- **Playlist colaborativa** com votação
-- **Modo cinema** para experiência imersiva
-
-### 🎯 Canais Especializados
-- **Categorização inteligente** por temas
-- **Canais Universo Z** com efeitos exclusivos
-- **Sistema de busca** avançado
-- **Filtros personalizáveis** por categoria
-
-### 🎨 Interface e Experiências Visuais
-- **Tema cyberpunk** com neon e gradientes
-- **Animações fluidas** e transições suaves
-- **Sistema de partículas** interativo
-- **Mascote animado** com personalidade
-- **Efeitos especiais** para canais premium
-
-### 🔧 Ferramentas Integradas
-- **Busca no YouTube** diretamente na interface
-- **Gerenciador de favoritos** personalizado
-- **Sistema de tags** para organização
-- **Modo escuro/claro** adaptativo
-
-## 🛠️ Tecnologias Utilizadas
-
-### Frontend
-- **React 18** - Framework principal
-- **Tailwind CSS** - Estilização moderna
-- **Zustand** - Gerenciamento de estado
-- **Socket.IO Client** - Comunicação em tempo real
-- **Framer Motion** - Animações avançadas
-
-### Backend
-- **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web
-- **Socket.IO** - WebSockets em tempo real
-- **Firebase** - Banco de dados e autenticação
-
-### Ferramentas de Desenvolvimento
-- **Create React App** - Configuração inicial
-- **PostCSS** - Processamento de CSS
-- **ESLint** - Qualidade de código
-
-## 📦 Instalação e Configuração
+## 🚀 Deploy no Vercel
 
 ### Pré-requisitos
-- Node.js 16+ instalado
-- NPM ou Yarn
-- Conta no Firebase (opcional)
+1. Conta no [Vercel](https://vercel.com)
+2. Projeto no GitHub
+3. Conta Firebase (opcional para histórico)
+4. WordPress com API REST habilitada (opcional)
 
-### 1. Clone o Repositório
-```bash
-git clone https://github.com/SEU_USUARIO/RetroLive.git
-cd RetroLive
+### Passos para Deploy
+
+1. **Conectar ao GitHub**
+   - Acesse [Vercel Dashboard](https://vercel.com/dashboard)
+   - Clique em "New Project"
+   - Conecte sua conta GitHub
+   - Selecione o repositório `RetroChat-Live`
+
+2. **Configurar Variáveis de Ambiente**
+   No painel do Vercel, vá em Settings > Environment Variables e adicione:
+
+   ```
+   # Firebase (opcional)
+   REACT_APP_FIREBASE_API_KEY=sua_api_key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=seu_projeto.firebaseapp.com
+   REACT_APP_FIREBASE_PROJECT_ID=seu_projeto_id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=seu_projeto.appspot.com
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=123456789
+   REACT_APP_FIREBASE_APP_ID=1:123456789:web:abcdef
+   
+   # Admin Credentials
+   REACT_APP_ADMIN_USERNAME=joaodd2
+   REACT_APP_ADMIN_PASSWORD=Killer007@
+   
+   # WordPress (opcional)
+   REACT_APP_WP_URL=https://seusite.com
+   REACT_APP_WP_USERNAME=joaodd2
+   REACT_APP_WP_PASSWORD=Killer007@
+   
+   # Configurações
+   REACT_APP_ENABLE_CHAT_HISTORY=true
+   REACT_APP_ENABLE_STREAM_AUTOMATION=true
+   REACT_APP_STREAM_UPDATE_INTERVAL=300000
+   ```
+
+3. **Deploy**
+   - Clique em "Deploy"
+   - Aguarde o build completar
+   - Seu site estará disponível em `https://seu-projeto.vercel.app`
+
+## 🔧 Configuração Local
+
+1. **Instalar dependências**
+   ```bash
+   npm install
+   ```
+
+2. **Configurar ambiente**
+   - Copie `.env.example` para `.env`
+   - Preencha as variáveis necessárias
+
+3. **Executar localmente**
+   ```bash
+   npm start
+   ```
+
+## 📱 Funcionalidades
+
+### Chat em Tempo Real
+- ✅ Mensagens instantâneas
+- ✅ Histórico no Firebase
+- ✅ Emojis e formatação
+- ✅ Sistema de moderação
+
+### Streams Automáticos
+- ✅ Futebol ao vivo
+- ✅ Música e entretenimento
+- ✅ Rotação automática
+- ✅ URLs de backup
+
+### Painel Administrativo
+- ✅ Login: `joaodd2` / `Killer007@`
+- ✅ Estatísticas em tempo real
+- ✅ Controle de streams
+- ✅ Integração WordPress
+
+### Atalhos do Teclado
+- `Ctrl + Shift + A`: Painel Admin
+- `Ctrl + L`: Seletor de Streams
+- `Ctrl + C`: Seletor de Canais
+
+## 🔗 Integração WordPress
+
+### Configuração
+1. Instale o plugin "Application Passwords" no WordPress
+2. Crie uma senha de aplicação para o usuário `joaodd2`
+3. Configure as variáveis `REACT_APP_WP_*` no Vercel
+
+### Automação
+- Posts automáticos para streams
+- Categorização por tipo (Futebol, Música, etc.)
+- Agendamento de publicações
+- Sincronização bidirecional
+
+## 🔥 Firebase Setup
+
+1. **Criar Projeto**
+   - Acesse [Firebase Console](https://console.firebase.google.com)
+   - Crie um novo projeto
+   - Habilite Firestore Database
+
+2. **Configurar Firestore**
+   - Modo de produção
+   - Regras básicas de segurança
+   - Coleção `messages` será criada automaticamente
+
+3. **Obter Credenciais**
+   - Project Settings > General
+   - Copie as configurações do SDK
+   - Adicione no Vercel como variáveis de ambiente
+
+## 📊 Monitoramento
+
+### Logs Disponíveis
+- Chat: mensagens, usuários ativos
+- Streams: status, falhas, atualizações
+- WordPress: sincronizações, erros
+- Sistema: performance, uptime
+
+### Métricas
+- Usuários simultâneos
+- Mensagens por minuto
+- Streams ativos/inativos
+- Taxa de sucesso WordPress
+
+## 🛠️ Desenvolvimento
+
+### Estrutura do Projeto
+```
+src/
+├── components/          # Componentes React
+├── services/           # Serviços (Firebase, WordPress)
+├── config/             # Configurações
+├── data/              # Dados estáticos
+├── store/             # Estado global
+└── styles/            # Estilos CSS
 ```
 
-### 2. Instale as Dependências
-```bash
-# Frontend
-npm install
+### Scripts Disponíveis
+- `npm start`: Desenvolvimento
+- `npm run build`: Build de produção
+- `npm run vercel-build`: Build para Vercel
+- `npm test`: Testes
 
-# Backend
-cd server
-npm install
-cd ..
-```
+## 🚨 Troubleshooting
 
-### 3. Configure as Variáveis de Ambiente
-```bash
-# Crie um arquivo .env na raiz do projeto
-REACT_APP_FIREBASE_API_KEY=sua_api_key
-REACT_APP_FIREBASE_AUTH_DOMAIN=seu_dominio
-REACT_APP_FIREBASE_PROJECT_ID=seu_projeto_id
-```
+### Problemas Comuns
 
-### 4. Execute o Projeto
-```bash
-# Terminal 1 - Backend
-cd server
-npm start
+1. **Chat não carrega histórico**
+   - Verifique credenciais Firebase
+   - Confirme regras do Firestore
 
-# Terminal 2 - Frontend
-npm start
-```
+2. **Streams não atualizam**
+   - Verifique `REACT_APP_ENABLE_STREAM_AUTOMATION`
+   - Confirme URLs dos streams
 
-## 🎯 Como Usar
+3. **WordPress não sincroniza**
+   - Teste credenciais manualmente
+   - Verifique API REST habilitada
 
-1. **Acesse** `http://localhost:3000`
-2. **Escolha um nickname** na modal inicial
-3. **Selecione um canal** da lista disponível
-4. **Comece a conversar** e explore as funcionalidades
-5. **Use as ferramentas** integradas para buscar conteúdo
+4. **Build falha no Vercel**
+   - Confirme todas as variáveis de ambiente
+   - Verifique logs de build
 
-## 🎨 Personalização
-
-### Adicionando Novos Canais
-Edite o arquivo `src/data/channels.js`:
-
-```javascript
-{
-  id: 'novo-canal',
-  name: '🎮 Meu Canal',
-  description: 'Descrição do canal',
-  category: 'games',
-  type: 'live',
-  videoId: 'ID_DO_VIDEO',
-  viewers: 0,
-  isLive: true
-}
-```
-
-### Modificando Temas
-Personalize as cores em `tailwind.config.js`:
-
-```javascript
-theme: {
-  extend: {
-    colors: {
-      'cyber-blue': '#00f5ff',
-      'neon-pink': '#ff0080'
-    }
-  }
-}
-```
-
-## 🌐 Deploy
-
-### Vercel (Recomendado)
-
-1. Conecte seu repositório GitHub ao Vercel
-2. Configure as variáveis de ambiente se necessário
-3. Deploy automático a cada push
-
-### Build para produção
-
-```bash
-npm run build
-```
+### Suporte
+Para problemas técnicos, verifique:
+1. Console do navegador (F12)
+2. Logs do Vercel
+3. Logs do Firebase
+4. Status da API WordPress
 
 ## 📁 Estrutura do Projeto
 

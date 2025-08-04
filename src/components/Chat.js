@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useSocket from '../hooks/useSocket';
+import chatService from '../services/chatService';
 
 const Chat = () => {
   const {
@@ -18,8 +19,44 @@ const Chat = () => {
   const { sendMessage } = useSocket();
   const [inputValue, setInputValue] = useState('');
   const [cooldownTime, setCooldownTime] = useState(0);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const unsubscribeRef = useRef(null);
+
+  // Carregar histórico do Firebase
+  useEffect(() => {
+    const loadChatHistory = async () => {
+      setIsLoadingHistory(true);
+      try {
+        const history = await chatService.getMessageHistory('general', 50);
+        useStore.getState().setMessages(history);
+      } catch (error) {
+        console.error('Erro ao carregar histórico:', error);
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    };
+
+    loadChatHistory();
+
+    // Escutar mensagens em tempo real do Firebase
+    if (process.env.REACT_APP_ENABLE_CHAT_HISTORY === 'true') {
+      unsubscribeRef.current = chatService.subscribeToMessages(
+        'general',
+        (firebaseMessages) => {
+          useStore.getState().setMessages(firebaseMessages);
+        },
+        100
+      );
+    }
+
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+    };
+  }, []);
 
   // Auto scroll para a última mensagem
   useEffect(() => {
@@ -73,20 +110,34 @@ const Chat = () => {
         text: text,
         nickname: nickname,
         avatar: avatar,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        channelId: 'general'
       };
       
       // Adicionar mensagem do usuário
       useStore.getState().addMessage(offlineMessage);
       
+      // Salvar no Firebase se habilitado
+      if (process.env.REACT_APP_ENABLE_CHAT_HISTORY === 'true') {
+        chatService.saveMessage(offlineMessage).catch(console.error);
+      }
+      
       // Adicionar aviso de modo offline
-      useStore.getState().addMessage({
+      const systemMessage = {
         type: 'system',
         text: '⚠️ Mensagem enviada em modo offline',
         nickname: 'Sistema',
         avatar: '⚠️',
-        timestamp: Date.now()
-      });
+        timestamp: Date.now(),
+        channelId: 'general'
+      };
+      
+      useStore.getState().addMessage(systemMessage);
+      
+      // Salvar mensagem do sistema no Firebase
+      if (process.env.REACT_APP_ENABLE_CHAT_HISTORY === 'true') {
+        chatService.saveMessage(systemMessage).catch(console.error);
+      }
     }
     
     setLastMessageTime(Date.now());
@@ -173,7 +224,13 @@ const Chat = () => {
 
       {/* Área de mensagens */}
       <div className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin scrollbar-track-retro-gray scrollbar-thumb-neon-cyan">
-        {messages.length === 0 ? (
+        {isLoadingHistory && (
+          <div className="flex justify-center items-center py-4">
+            <div className="text-retro-border text-sm font-pixel">📜 Carregando histórico...</div>
+          </div>
+        )}
+        
+        {messages.length === 0 && !isLoadingHistory ? (
           <div className="text-center text-retro-border font-pixel text-xs py-8">
             <div className="text-2xl mb-2">👾</div>
             <div>Nenhuma mensagem ainda...</div>
