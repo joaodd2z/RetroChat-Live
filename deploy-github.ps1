@@ -17,8 +17,8 @@ Write-Host "[2/4] Configurando remote origin..." -ForegroundColor Yellow
 $githubUser = Read-Host "Digite seu nome de usuário do GitHub"
 
 try {
-    git remote add origin "https://github.com/$githubUser/RetroLive.git"
-    Write-Host "Remote configurado para: https://github.com/$githubUser/RetroLive.git" -ForegroundColor Green
+    git remote add origin "https://github.com/$githubUser/RetroChat-Live.git"
+    Write-Host "Remote configurado para: https://github.com/$githubUser/RetroChat-Live.git" -ForegroundColor Green
 } catch {
     Write-Host "Erro ao configurar remote. Verifique se já não existe um remote 'origin'." -ForegroundColor Red
     Write-Host "Para remover: git remote remove origin" -ForegroundColor Yellow
@@ -27,7 +27,7 @@ Write-Host ""
 
 # Fazer push
 Write-Host "[3/4] Fazendo push para o GitHub..." -ForegroundColor Yellow
-Write-Host "IMPORTANTE: Certifique-se de que o repositório 'RetroLive' existe no seu GitHub!" -ForegroundColor Red
+Write-Host "IMPORTANTE: Certifique-se de que o repositório 'RetroChat-Live' existe no seu GitHub!" -ForegroundColor Red
 Write-Host "Caso não exista, crie-o em: https://github.com/new" -ForegroundColor Yellow
 Write-Host ""
 Read-Host "Pressione Enter para continuar"
@@ -38,10 +38,10 @@ try {
     Write-Host "[4/4] Deploy concluído com sucesso!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Seu projeto está agora disponível em:" -ForegroundColor Cyan
-    Write-Host "https://github.com/$githubUser/RetroLive" -ForegroundColor White
+    Write-Host "https://github.com/$githubUser/RetroChat-Live" -ForegroundColor White
     Write-Host ""
     Write-Host "Para clonar em outro local:" -ForegroundColor Cyan
-    Write-Host "git clone https://github.com/$githubUser/RetroLive.git" -ForegroundColor White
+    Write-Host "git clone https://github.com/$githubUser/RetroChat-Live.git" -ForegroundColor White
 } catch {
     Write-Host "Erro durante o push. Verifique:" -ForegroundColor Red
     Write-Host "1. Se o repositório existe no GitHub" -ForegroundColor Yellow
