@@ -50,6 +50,8 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  console.log('App component initializing...');
+  
   const { 
     nickname, 
     showNicknameModal, 
@@ -60,9 +62,17 @@ function App() {
   const [showChannelSelector, setShowChannelSelector] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showLiveStreamSelector, setShowLiveStreamSelector] = useState(false);
+  const [appError, setAppError] = useState(null);
   
-  // Inicializar socket
-  useSocket();
+  // Inicializar socket com tratamento de erro
+  let socket;
+  try {
+    socket = useSocket();
+    console.log('Socket initialized successfully');
+  } catch (error) {
+    console.error('Socket initialization failed:', error);
+    setAppError('Socket connection failed');
+  }
 
   useEffect(() => {
     // Mensagem de boas-vindas quando a app carrega
